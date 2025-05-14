@@ -1,0 +1,6 @@
+mobilemart/__pycache__/
+sitio/__pycache__/
+db.sqlite3
+venv/
+.env
+package-lock.json

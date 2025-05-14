@@ -1,0 +1,202 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MobileMart{% endblock %}</title>
+    <link href="{% static 'mobilemart/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'mobilemart/css/Main.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/sweetalert2.min.css">
+    <script src="{% static 'mobilemart/js/bootstrap.bundle.min.js' %}"></script>
+
+    {% block links %}
+    {% endblock links %}
+
+</head>
+
+<body>
+    <!--NAVBAR-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Panel de Administrador</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'administracion' %}">Inicio</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Usuarios
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href="{% url 'listadousuarios' %}">Editar usuarios</a></li>
+                            <li><a class="dropdown-item" href="{% url 'crearusuario' %}">Crear usuarios</a></li>
+
+                        </ul>
+                    </li>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Productos
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <li><a class="dropdown-item" href="{% url 'administracion' %}">Editar Productos</a></li>
+                                <li><a class="dropdown-item" href="{% url 'agregarproducto' %}">Agregar productos</a></li>
+   
+                            </ul>
+                        </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listadopedidos' %}">Pedidos</a>
+                    </li>
+                </ul>
+            </div>
+                <ul class="navbar-nav ml-auto">
+                    <!-- icono personacirculo -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                class="bi bi-person-circle" viewBox="0 0 16 16">
+                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                                <path fill-rule="evenodd"
+                                    d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                            </svg>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href="">Bienvenido, <strong>{{request.user.nombre}}</strong></a></li>
+                            <li><a class="dropdown-item" href="{% url 'perfilusuarioadmin' %}">Perfil</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="{% url 'cerrar_sesion' %}">Cerrar sesión</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            
+        </div>
+    </nav>
+    <!--FIN NAVBAR-->
+
+    {% block contenido %}
+    {% endblock contenido%}
+
+    <!--FOOTER-->
+    <footer class="bg-dark py-5">
+        <div class="container">
+            <div class="row text-white g-4">
+                <div class="col-md-6 col-lg-3">
+                    <a class="text-uppercase text-decoration-none brand text-white" href="{% url 'index' %}">MobileMart</a>
+                    <p class="text-white text-opacity-50 mt-3">Tienda en línea especializada en la venta de teléfonos celulares y dispositivos móviles.</p>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <h5 class="fw-light">Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="my-3">
+                            <a href="{% url 'administracion' %}" class="text-white text-decoration-none text-opacity-50">
+                                <i class="fas fa-chevron-right me-1"></i> Productos
+                            </a>
+                        </li>
+                        <li class="my-3">
+                            <a href="{% url 'listadousuarios' %}" class="text-white text-decoration-none text-opacity-50">
+                                <i class="fas fa-chevron-right me-1"></i> Usuarios
+                            </a>
+                        </li>
+                        <li class="my-3">
+                            <a href="{% url 'listadopedidos' %}" class="text-white text-decoration-none text-opacity-50">
+                                <i class="fas fa-chevron-right me-1"></i> Pedidos
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <h5 class="fw-light mb-3">Contacto</h5>
+                    <div class="d-flex justify-content-start align-items-start my-2 text-white text-opacity-50">
+                        <span class="me-3">
+                            <i class="fas fa-map-marked-alt"></i>
+                        </span>
+                        <span class="fw-light">
+                            Paicaví 3280, Concepción, Bío Bío
+                        </span>
+                    </div>
+                    <div class="d-flex justify-content-start align-items-start my-2 text-white text-opacity-50">
+                        <span class="me-3">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                        <span class="fw-light">
+                            MobileMart@gmail.com
+                        </span>
+                    </div>
+                    <div class="d-flex justify-content-start align-items-start my-2 text-white text-opacity-50">
+                        <span class="me-3">
+                            <i class="fas fa-phone-alt"></i>
+                        </span>
+                        <span class="fw-light">
+                            +569 7768 3148
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <h5 class="fw-light mb-3">Redes</h5>
+                    <div>
+                        <ul class="list-unstyled d-flex">
+                            <li>
+                                <a href="#" class="text-white text-decoration-none text-opacity-50 fs-4 me-4">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-white text-decoration-none text-opacity-50 fs-4 me-4">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--FIN FOOTER-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {% if messages %}
+        {% for m in messages %}
+            <script>
+
+                {% if 'success' in m.tags %}
+                    var icon = 'success';
+                {% elif 'info' in m.tags %}
+                    var icon = 'info';
+                {% elif 'warning' in m.tags %}
+                    var icon = 'warning';
+                {% elif 'error' in m.tags %}
+                    var icon = 'error';
+                {% else %}
+                    var icon = 'info';
+                {% endif %}
+
+                Swal.fire({
+                    title: "¡Operación exitosa!",
+                    text: "{{m}}",
+                    icon: icon
+                  });
+            </script>
+        {% endfor %}
+    {% endif %}
+</body>
+
+</html>
