@@ -5,5 +5,108 @@
 {% block title %}Inicio{% endblock %}
 
 {% block contenido %}
+<!--CAROUSEL-->
+<div id="carouselE1" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselE1" data-bs-slide-to="0" class="active" aria-current="true"
+            aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselE1" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselE1" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="{% static 'mobilemart/img/iphone15slider.jpg' %}" class="d-block w-100" alt="#">
+            <div class="carousel-caption">
+                <h5>iPhone 15</h5>
+                <p>"Hazte con el teléfono que se adapta a tu estilo de vida."</p>
+                <p><a href="{% url 'iphone' %}" class="btn btn-primary mt-3">Ver más</a></p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'mobilemart/img/galaxys24slider.jpg' %}" class="d-block w-100" alt="#">
+            <div class="carousel-caption">
+                <h5>Samsung Galaxy S24</h5>
+                <p>"Diseño elegante, rendimiento excepcional. ¡Hazlo tuyo!"</p>
+                <p><a href="{% url 'samsung' %}" class="btn btn-primary mt-3">Ver más</a></p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'mobilemart/img/xiaomi13tslider.jpeg' %}" class="d-block w-100" alt="#">
+            <div class="carousel-caption">
+                <h5>Xiaomi 13T</h5>
+                <p>"Vive la experiencia móvil definitiva con nuestra gama de teléfonos."</p>
+                <p><a href="{% url 'xiaomi' %}" class="btn btn-primary mt-3">Ver más</a></p>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselE1" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselE1" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+<!--FIN CAROUSEL-->
 
+<div class="container" style="margin-bottom: 30px;">
+    <h3 class="border-bottom pb-3" style="margin-top: 30px;">Productos Destacados</h3>
+    <div class="row" style="justify-content center">
+        <div class="col-sm-4 mt-3">
+            <div class="card" style="width: 300px; margin-right: 10px; margin:0 auto">
+                <img class="card-img-top" src="{{destacado_apple.foto.url}}" alt="{{destacado_apple.modelo}}">
+                <div class="card-body">
+                    <h3 class="card-title">{{destacado_apple.modelo}}</h3>
+                    <h5 class="card-text">Precio : ${{destacado_apple.precio|intcomma:False}}</h5>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                        <form action="{% url 'agregar_al_carrito' id=destacado_apple.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="cantidad" value="1">
+                            <button type="submit" class="btn btn-primary">Agregar al carrito</button>
+                        </form>
+                        <a href="{% url 'detalle_producto' destacado_apple.id %}" class="btn btn-success">Ver
+                            detalles</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 mt-3">
+            <div class="card" style="width: 300px; margin-right: 10px; margin:0 auto">
+                <img class="card-img-top" src="{{destacado_samsung.foto.url}}" alt="{{destacado_samsung.modelo}}">
+                <div class="card-body">
+                    <h3 class="card-title">{{destacado_samsung.modelo}}</h3>
+                    <h5 class="card-text">Precio : ${{destacado_samsung.precio|intcomma:False}}</h5>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                        <form action="{% url 'agregar_al_carrito' id=destacado_samsung.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="cantidad" value="1">
+                            <button type="submit" class="btn btn-primary">Agregar al carrito</button>
+                        </form>
+                        <a href="{% url 'detalle_producto' destacado_samsung.id %}" class="btn btn-success">Ver
+                            detalles</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 mt-3">
+            <div class="card" style="width: 300px; margin-right: 10px; margin:0 auto">
+                <img class="card-img-top" src="{{destacado_xiaomi.foto.url}}" alt="{{destacado_xiaomi.modelo}}">
+                <div class="card-body">
+                    <h3 class="card-title">{{destacado_xiaomi.modelo}}</h3>
+                    <h5 class="card-text">Precio : ${{destacado_xiaomi.precio|intcomma:False}}</h5>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                        <form action="{% url 'agregar_al_carrito' id=destacado_xiaomi.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="cantidad" value="1">
+                            <button type="submit" class="btn btn-primary">Agregar al carrito</button>
+                        </form>
+                        <a href="{% url 'detalle_producto' destacado_xiaomi.id %}" class="btn btn-success">Ver
+                            detalles</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock contenido %}
