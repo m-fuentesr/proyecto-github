@@ -16,4 +16,50 @@
 
     {% block contenido %}
     
+    <div class="container" style="margin-bottom: 30px;">
+        <h3 class="border-bottom " style="margin-top: 30px;">Productos</h3>
+        <div class="row">
+            {% for c in celulares %}
+            <div class="col-sm-6 col-md-4 col-lg-3 mt-3">
+                <div class="card" style="width: 300px; margin-right: 10px;">
+                    <img class="card-img-top" src="{{c.foto.url}}" alt="{{c.modelo}}">
+                    <div class="card-body">
+                        <h3 class="card-title">{{c.modelo}}</h3>
+                        <h5 class="card-text">Precio : ${{c.precio|intcomma:False}} </h5>
+                        <div class="d-flex">
+                            <a href="{% url 'ventanaedicion' c.id %}" class="btn btn-primary mr-2">
+                                Editar
+                            </a>
+                            <form method="post" action="{% url 'eliminarproducto' c.id %}" style="display:inline;" id="delete-form-{{ c.id }}">
+                                {% csrf_token %}
+                                <button type="button" class="btn btn-danger ms-2" onclick="confirmDelete('{{ c.id }}')">Eliminar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %} 
+        </div>
+    </div>
+
+    <script>
+        function confirmDelete(id) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "El producto será eliminado permanentemente.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                confirmButtonText: 'Sí, eliminarlo',
+                cancelButtonText: 'Cancelar'
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + id).submit();
+                }
+            })
+        }
+    </script>
+
+    <script src="{% static 'mobilemart/js/scriptagregarprod.js' %}"></script>
+
     {% endblock contenido %}
