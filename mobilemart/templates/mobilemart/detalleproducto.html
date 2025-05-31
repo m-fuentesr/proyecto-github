@@ -13,6 +13,56 @@
 
     {% block contenido %}
 
-    
+    <section id="product-page">
+        <div class="product-details">
+            <!--Imagen-->
+            <div class="product-img">
+                <img src="{{celular.foto.url}}" alt="" />
+            </div>
+            <!--Texto-->
+            <div class="product-text">
+                <!--Detalles-->
+                <span class="product-category">{{celular.marca}}</span>
+                <h3>{{celular.modelo}}</h3>
+                <span class="product-price">${{celular.precio|intcomma:False}}</span>
+                <h4 style="margin-top: 20px;">Especificaciones</h4>
+                <p>{{celular.especificaciones}}
+                    <!-- <br />
+                    Procesador: Apple A16 Bionic
+                    <br />
+                    Memoria: RAM de 6 GB, almacenamiento base de 128 GB
+                    <br />
+                    Cámara: Sistema de cámara triple mejorado
+                    <br />
+                    Batería: Mayor capacidad y carga rápida
+                    <br />
+                    Conectividad: 5G avanzado, Wi-Fi 6E, Bluetooth 5.2
+                    <br />
+                    Diseño: Premium de vidrio y metal con certificación IP68
+                    <br />
+                    Sistema Operativo: iOS 16 -->
+                </p>
+
+                <!--btn-->
+                <div class="product-button">
+                    <form action="{% url 'agregar_al_carrito' id=celular.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="cantidad" value="1">
+                        <button type="submit" class="btn btn-primary">Agregar al carrito</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--==Jquery===========================-->
+    <script src="https://code.jquery.com/jquery-3.6.1.js"
+        integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+
+    <script>
+        $('.c-checkbox').on('change', function () {
+            $('.c-checkbox').not(this).prop('checked', false);
+        });
+    </script>
 
     {% endblock contenido %}
