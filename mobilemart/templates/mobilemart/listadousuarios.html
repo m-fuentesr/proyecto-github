@@ -14,5 +14,60 @@
 
 
     {% block contenido %}
-    
+    <div class="container mt-4">
+        <h1 class="border-bottom pb-3">Listado de usuarios</h1>
+        <div class="container mt-4">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Rut</th>
+                        <th>Nombre</th>
+                        <th>Usuario</th>
+                        <th>Email</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for u in usuarios %}
+                    <tr>
+                        <td>{{ u.rut }}</td>
+                        <td>{{ u.nombre }} {{ u.apellido }}</td>
+                        <td>{{ u.username }}</td>
+                        <td>{{ u.email }}</td>
+                        <td>
+                            <a href="{% url 'detalleusuario' pk=u.pk %}">
+                                <button class="btn btn-dark">Editar</button>
+                            </a>
+                            {% if not u.is_superuser %}
+                            <form method="post" action="{% url 'eliminarusuario' pk=u.pk %}" style="display:inline;" id="delete-form-{{ u.pk }}">
+                                {% csrf_token %}
+                                <button type="button" class="btn btn-danger ms-2" onclick="confirmDelete('{{ u.pk }}')">Eliminar</button>
+                            </form>
+                            <button class="btn btn-warning ms-2" onclick="suspenderUsuario()">Suspender</button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function confirmDelete(pk) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "El usuario será eliminado permanentemente.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                confirmButtonText: 'Sí, eliminarlo',
+                cancelButtonText: 'Cancelar'
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + pk).submit();
+                }
+            })
+        }
+    </script>
     {% endblock contenido %}
