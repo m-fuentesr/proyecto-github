@@ -7,6 +7,23 @@
 <section>
     <div class="container mt-3 mb-5">
         <h2 class="border-bottom">Listado de Pedidos</h2>
+        
+        <form method="get" class="row g-3 mb-4">
+            <div class="col-md-4">
+                <label for="fecha_inicio" class="form-label">Desde:</label>
+                <input type="date" class="form-control" name="fecha_inicio" id="fecha_inicio" value="{{ request.GET.fecha_inicio }}">
+            </div>
+            <div class="col-md-4">
+                <label for="fecha_fin" class="form-label">Hasta:</label>
+                <input type="date" class="form-control" name="fecha_fin" id="fecha_fin" value="{{ request.GET.fecha_fin }}">
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary me-2">Filtrar</button>
+                <a href="{% url 'exportar_pedidos' %}?fecha_inicio={{ request.GET.fecha_inicio }}&fecha_fin={{ request.GET.fecha_fin }}&formato=excel" class="btn btn-success me-2">Descargar Excel</a>
+                <a href="{% url 'exportar_pedidos' %}?fecha_inicio={{ request.GET.fecha_inicio }}&fecha_fin={{ request.GET.fecha_fin }}&formato=pdf" class="btn btn-danger">Descargar PDF</a>
+            </div>
+        </form>
+
         <div class="row">
             {% for pedido in pedidos %}
             <div class="col-md-6">

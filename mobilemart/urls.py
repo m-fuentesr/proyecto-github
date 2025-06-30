@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from .views import (index, iphone, samsung, xiaomi, administracion, ver_carrito, agregar_al_carrito, actualizar_carrito, 
 eliminar_item_carrito, confirmar_carrito, perfilusuario, perfilusuarioadmin, pedidosuser, about, detalle_producto, recuperar_contrasena,
 RegistroView, detalle_pedido_usuario, agregarproducto, ventanaedicion, crearusuario, listadousuarios, detalleusuario, listadopedidos, 
-detallepedido, eliminar_usuario, eliminar_producto, CustomLoginView, cerrar_sesion, redirect_login,)
+exportar_pedidos, detallepedido, eliminar_usuario, eliminar_producto, CustomLoginView, cerrar_sesion, redirect_login)
 
 urlpatterns = [
     path('',index,name='index'),
@@ -32,6 +32,7 @@ urlpatterns = [
     path('listadousuarios/', listadousuarios, name='listadousuarios'),
     path('detalleusuario/<int:pk>/', detalleusuario, name='detalleusuario'),
     path('listadopedidos/', listadopedidos, name='listadopedidos'),
+    path('exportarpedidos/', exportar_pedidos, name='exportar_pedidos'),
     path('detallepedido/<int:id>/', detallepedido, name='detallepedido'),
     path('eliminarusuario/<int:pk>/', eliminar_usuario, name='eliminarusuario'),
     path('eliminarproducto/<int:id>/', eliminar_producto, name='eliminarproducto'),
