@@ -8,10 +8,13 @@ from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import user_passes_test, login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
+from django.template.loader import get_template
 from django.urls import reverse_lazy
 from django.views import generic
-
+from io import BytesIO
+from xhtml2pdf import pisa
+import pandas as pd
 
 # Create your views here.
 
@@ -352,7 +355,48 @@ def detalleusuario(request, pk):
 @user_passes_test(lambda u: u.is_superuser)
 def listadopedidos(request):
     pedidos = Pedido.objects.all()
+    fecha_inicio = request.GET.get('fecha_inicio')
+    fecha_fin = request.GET.get('fecha_fin')
+
+    if fecha_inicio and fecha_fin:
+        pedidos = pedidos.filter(fecha_pedido__range=[fecha_inicio, fecha_fin])
     return render(request, 'mobilemart/listadopedidos.html', {'pedidos': pedidos})
+
+@user_passes_test(lambda u: u.is_superuser)
+def exportar_pedidos(request):
+    fecha_inicio = request.GET.get('fecha_inicio')
+    fecha_fin = request.GET.get('fecha_fin')
+    formato = request.GET.get('formato')
+
+    pedidos = Pedido.objects.all()
+    if fecha_inicio and fecha_fin:
+        pedidos = pedidos.filter(fecha_pedido__range=[fecha_inicio, fecha_fin])
+
+    if formato == 'excel':
+        df = pd.DataFrame([{
+            'ID': p.id,
+            'Usuario': p.usuario.username,
+            'Estado': p.estado,
+            'Fecha': p.fecha_pedido.strftime('%Y-%m-%d'),
+            'Productos': ', '.join([d.celular.modelo for d in p.detalles.all()])
+        } for p in pedidos])
+
+        output = BytesIO()
+        df.to_excel(output, index=False)
+        output.seek(0)
+        response = HttpResponse(output, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename=pedidos.xlsx'
+        return response
+
+    elif formato == 'pdf':
+        template = get_template('mobilemart/reportepedidos.html')
+        html = template.render({'pedidos': pedidos})
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="pedidos.pdf"'
+        pisa_status = pisa.CreatePDF(html, dest=response)
+        if pisa_status.err:
+            return HttpResponse('Error al generar PDF', status=500)
+        return response
 
 @user_passes_test(lambda u: u.is_superuser)
 def detallepedido(request, id):
