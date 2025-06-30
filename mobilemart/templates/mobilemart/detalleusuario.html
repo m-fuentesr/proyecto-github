@@ -15,5 +15,25 @@
 
 
     {% block contenido %}
-    
+    <div class="container rounded bg-white mt-3 mb-3">
+        <div class="row justify-content-center">
+            <div class="col-md-6 border-right border rounded">
+                <div class="p-3 py-3">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="text-right">Editar usuario</h4>
+                    </div>
+                    <form id="editarperfil-form" action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{form | crispy}}
+                        <div class="mt-4 text-center"><button class="btn btn-primary profile-button"
+                                type="submit">Guardar
+                                Usuario</button></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'mobilemart/js/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'mobilemart/js/scripteditarperfil.js' %}"></script>
     {% endblock contenido %}
